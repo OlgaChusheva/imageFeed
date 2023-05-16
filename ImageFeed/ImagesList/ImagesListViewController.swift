@@ -23,10 +23,6 @@ class ImagesListViewController: UIViewController {
         formatter.timeStyle = .none
         return formatter
     }()
-    
-    
-    func configcell(for cell: ImagesListCell, with indexPath: IndexPath) {
-    }
 
 }
 extension ImagesListViewController {
@@ -38,7 +34,7 @@ extension ImagesListViewController {
         cell.dataLabel.text = dateFormatter.string(from: Date())
         
         let isLiked = indexPath.row % 2 == 0
-        let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_offgenera")
+        let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
         cell.likeButton.setImage(likeImage, for: .normal)
     }
 }
