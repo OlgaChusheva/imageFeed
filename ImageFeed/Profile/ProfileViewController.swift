@@ -1,18 +1,6 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
-         
-    override func viewDidLoad() {
-            super.viewDidLoad()
-        
-        addSubViews()
-        applyConstraints()
-    }
-    
-    private var label: UILabel = {
-         let label = UILabel()
-        return label
-    }()
            
     private let imageView: UIImageView = {
         let profilImage = UIImage(named: "Photo")
@@ -20,7 +8,7 @@ final class ProfileViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    
+
     private let userName: UILabel = {
         let userName = UILabel()
         userName.translatesAutoresizingMaskIntoConstraints = false
@@ -58,6 +46,12 @@ final class ProfileViewController: UIViewController {
         return button
     }()
     
+      override func viewDidLoad() {
+            super.viewDidLoad()
+        addSubViews()
+        applyConstraints()
+    }
+    
     private func addSubViews() {
         view.addSubview(imageView)
         view.addSubview(userName)
@@ -69,7 +63,7 @@ final class ProfileViewController: UIViewController {
     private func applyConstraints() {
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 52),
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
             imageView.widthAnchor.constraint(equalToConstant: 70),
             imageView.heightAnchor.constraint(equalToConstant: 70),
             userName.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
@@ -84,7 +78,6 @@ final class ProfileViewController: UIViewController {
 
     @objc
     private func didTapButton() {
-        label.removeFromSuperview()
     }
 }
 
