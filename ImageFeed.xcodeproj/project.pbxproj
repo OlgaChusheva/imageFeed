@@ -23,6 +23,7 @@
 		1F7582C729FD2B4600E71192 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F7582C529FD2B4600E71192 /* LaunchScreen.storyboard */; };
 		1F7582F329FFD9F700E71192 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7582F229FFD9F700E71192 /* ImagesListCell.swift */; };
 		1F96DF272A503725007DDD72 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 1F96DF262A503725007DDD72 /* ProgressHUD */; };
+		1F96DF292A51A921007DDD72 /* UIBlokingPrgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F96DF282A51A921007DDD72 /* UIBlokingPrgressHUD.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		1F7582C629FD2B4600E71192 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F7582C829FD2B4600E71192 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F7582F229FFD9F700E71192 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		1F96DF282A51A921007DDD72 /* UIBlokingPrgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlokingPrgressHUD.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 				1F5FAC9B2A3FA44600B2379A /* SplashViewController */,
 				1F4B7A852A2D0AF900E741FD /* Auth */,
 				1F4B7A7B2A14137D00E741FD /* Profile */,
+				1F96DF282A51A921007DDD72 /* UIBlokingPrgressHUD.swift */,
 				1F7582F429FFDA3100E71192 /* ImagesList */,
 				1F7582C029FD2B4400E71192 /* Main.storyboard */,
 				1F7582C329FD2B4600E71192 /* Assets.xcassets */,
@@ -227,6 +230,7 @@
 				1F4B7A7A2A11584200E741FD /* ProfileViewController.swift in Sources */,
 				1F7582BB29FD2B4400E71192 /* AppDelegate.swift in Sources */,
 				1F5FACA12A3FA8AF00B2379A /* OAuth2Service.swift in Sources */,
+				1F96DF292A51A921007DDD72 /* UIBlokingPrgressHUD.swift in Sources */,
 				1F4B7A842A2D014900E741FD /* AuthViewController.swift in Sources */,
 				1F4B7A812A2C8CB400E741FD /* Constants.swift in Sources */,
 				1F7582BD29FD2B4400E71192 /* SceneDelegate.swift in Sources */,
