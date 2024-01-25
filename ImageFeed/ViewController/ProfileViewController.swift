@@ -1,9 +1,10 @@
 import UIKit
+import WebKit
 import Kingfisher
 import SwiftKeychainWrapper
 
 final class ProfileViewController: UIViewController {
-    
+
     private let profileService = ProfileService.shared
     
     private var profileImageServiceObserver: NSObjectProtocol?
@@ -43,13 +44,14 @@ final class ProfileViewController: UIViewController {
         return textName
     }()
     
-    private let button: UIButton = {
+    private lazy var logoutButton: UIButton = {
         let button = UIButton.systemButton(
-            with: UIImage(systemName: "ipad.and.arrow.forward")!,
-            target: ProfileViewController.self,
+            with: UIImage(named: "logout")!,
+            target: self,
             action: #selector(Self.didTapButton))
-        button.tintColor = UIColor(named: "YP Red")
+        button.tintColor = .ypRed
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.accessibilityIdentifier = "logoutButton"
         return button
     }()
     
@@ -59,12 +61,12 @@ final class ProfileViewController: UIViewController {
         
         view.backgroundColor = UIColor(named: "YP_Black")
         
-        button.isHidden = false
+        logoutButton.isHidden = false
         updateProfileDetails(profile: profileService.profile)
         
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
-                forName: ProfileImageService.DidChangeNotification,
+                forName: ProfileImageService.didChangeNotification,
                 object: nil,
                 queue: .main
             ) { [weak self] _ in
@@ -74,19 +76,23 @@ final class ProfileViewController: UIViewController {
         updateAvatar()
         addSubViews()
         applyConstraints()
+        
     }
     
     
-    private func updateAvatar() {
+    func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
         else { return }
         userImageView.kf.indicatorType = .activity
-        userImageView.kf.setImage(with: url,
-                                  placeholder: UIImage(named: "user_placeholder"),
-                                  options: [.forceRefresh])
+        
+        userImageView.kf.setImage(with: url, placeholder: UIImage(named: "user_placeholder"), options: [.forceRefresh])
     }
+    
+    
+    
+
     
     private func updateProfileDetails(profile: Profile?) {
         guard let profile = profile else { return }
@@ -100,7 +106,7 @@ final class ProfileViewController: UIViewController {
         view.addSubview(userNameLabel)
         view.addSubview(loginNameLabel)
         view.addSubview(profileTextLabel)
-        view.addSubview(button)
+        view.addSubview(logoutButton)
     }
     
     private func applyConstraints() {
@@ -115,14 +121,67 @@ final class ProfileViewController: UIViewController {
             loginNameLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor),
             profileTextLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8),
             profileTextLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor),
-            button.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24),
-            button.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor)])
+            logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24),
+            logoutButton.centerYAnchor.constraint(equalTo: userImageView.centerYAnchor)])
     }
     
     @objc
     private func didTapButton() {
-        print(#function)
-        let _: Bool = KeychainWrapper.standard.removeObject(forKey: "newToken")
+        showAlert()
+    }
+    
+  
+    
+    func showAlert() {
+        let alertController = UIAlertController(
+            title: "Пока, пока!",
+            message: "Уверены, что хотите выйти?",
+            preferredStyle: .alert)
+        let action = UIAlertAction(title: "Да", style: .default, handler: { [weak self] action in
+            guard self != nil else { return }
+            self?.logout()
+        })
+        alertController.addAction(action)
+        action.accessibilityIdentifier = "Yes action"
+        alertController.addAction(UIAlertAction(title: "Нет", style: .default, handler: nil))
+        alertController.view.accessibilityIdentifier = "Bye bye!"
+        
+        present(alertController, animated: true, completion: nil)
+        
+    }
+    
+    func logout() {
+        OAuth2TokenStorage().token = nil
+        cleanServicesData()
+        switchToSplashViewController()
+        print("Hello")
+        clean()
+    }
+    
+    private func cleanServicesData() {
+        ImagesListService.shared.clean()
+        ProfileService.shared.clean()
+        ProfileImageService.shared.clean()
+    }
+    
+     func clean() {
+        // Очищаем все куки из хранилища
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        // Запрашиваем все данные из локального хранилища
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            // Массив полученных записей удаляем из хранилища
+            records.forEach { record in
+                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+            }
+        }
+    }
+    
+    func switchToSplashViewController() {
+     
+        guard let window = UIApplication.shared.windows.first else { preconditionFailure("Invalid Configuration") }
+        
+        let splashViewController = SplashViewController()
+        window.rootViewController = splashViewController
     }
 }
 
