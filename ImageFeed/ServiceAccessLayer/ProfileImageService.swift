@@ -7,64 +7,73 @@
 
 import Foundation
 
+struct UserResult: Decodable {
+    let profileImage: ImageURL?
+    
+    enum CodingKeys: String, CodingKey {
+        case profileImage = "profile_image"
+    }
+}
+
+struct ImageURL: Decodable {
+    let small: String?
+}
+
 final class ProfileImageService {
-    
-    struct UserResult: Decodable {
-        let profileImage: ProfileImage
-    }
-    struct ProfileImage: Decodable {
-        let large: String
-    }
-    
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     static let shared = ProfileImageService()
     private (set) var avatarURL: String?
     private var task: URLSessionTask?
-    private var lastUserName: String?
-    private var lastToken: String?
-    private let urlSession = URLSession.shared
-    static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
-    func fetchProfileImageURL(
-        _ token: String,
-        username: String,
-        _ completion: @escaping (Result<String, Error>) -> Void) {
-            
-            assert(Thread.isMainThread)
-            
-            if (lastUserName == username) || (lastToken == token) { return }
-            task?.cancel()
-            
-            lastUserName = username
-            lastToken = token
-            
-            let request = URLRequest.getRequest(token: token, path: "/users/\(username)")
-            let task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
-                guard let self else { return }
-                
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success(let image):
-                        let avatarURLString = image.profileImage.large
-                        self.avatarURL = avatarURLString
-                        completion(.success(avatarURLString))
-                        NotificationCenter.default
-                            .post(
-                                name: ProfileImageService.DidChangeNotification,
-                                object: self,
-                                userInfo: ["URL": avatarURLString])
-                        self.task = nil
-                    case .failure(let error):
-                        completion(.failure(error))
-                        self.lastUserName = nil
-                        self.lastToken = nil
-                    }
-                }
-            }
-            self.task = task
-            task.resume()
-        }
+    func clean() {
+        avatarURL = nil
+        task?.cancel()
+        task = nil
+    }
 }
 
-
+extension ProfileImageService {
+    
+    func fetchProfileImageURL(_ token: String, username: String?, completion: @escaping (Result<String?, Error>) -> Void) {
+        
+        //Логика для предотвращения гонки
+        assert(Thread.isMainThread)
+        task?.cancel()
+        
+        //Формирование URLRequest на получение публичных данных своего профиля
+        guard let username = username else { return }
+        guard let request = fetchProfileImageRequest(token, username: username) else { return }
+        
+        //создание URLSessionDataTask на получение публичных данных своего профиля
+        
+        let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
+            guard let self = self else { return }
+            self.task = nil
+            switch result {
+            case .success(let userResult):
+                self.avatarURL = userResult.profileImage?.small
+                completion(.success(self.avatarURL))
+                NotificationCenter.default
+                    .post(
+                        name: ProfileImageService.didChangeNotification,
+                        object: self,
+                        userInfo: ["URL" : self.avatarURL ?? ""])
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        self.task = task
+        task?.resume()
+    }
+    
+    private func fetchProfileImageRequest(_ token: String, username: String) -> URLRequest? {
+        var request = URLRequest.makeHTTPRequest(
+            path: "/users/\(username)",
+            httpMethod: "GET",
+            baseURL: AuthConfiguration.standart.defaultBaseURL)
+        request?.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        return request
+    }
+}
 
 
