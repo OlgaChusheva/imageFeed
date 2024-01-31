@@ -3,7 +3,14 @@ import WebKit
 import Kingfisher
 import SwiftKeychainWrapper
 
-final class ProfileViewController: UIViewController {
+public protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfilePresenterProtocol? { get set }
+    func switchToSplashViewController()
+}
+
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
+    
+    var presenter: ProfilePresenterProtocol?
 
     private let profileService = ProfileService.shared
     
@@ -54,6 +61,11 @@ final class ProfileViewController: UIViewController {
         button.accessibilityIdentifier = "logoutButton"
         return button
     }()
+    
+    func configure(_ presenter: ProfilePresenterProtocol) {
+        self.presenter = presenter
+        self.presenter?.view = self
+    }
     
     
     override func viewDidLoad() {
@@ -139,7 +151,7 @@ final class ProfileViewController: UIViewController {
             preferredStyle: .alert)
         let action = UIAlertAction(title: "Да", style: .default, handler: { [weak self] action in
             guard self != nil else { return }
-            self?.logout()
+            self?.presenter?.logout()
         })
         alertController.addAction(action)
         action.accessibilityIdentifier = "Yes action"
