@@ -8,9 +8,8 @@
 import XCTest
 @testable import ImageFeed
 
-final class ImageFeedTests: XCTestCase {
-    
-    
+final class WebViewTests: XCTestCase {
+
     func testViewControllerCallsViewDidLoad() {
         //given
         let viewController = WebViewViewController()
@@ -83,29 +82,17 @@ final class ImageFeedTests: XCTestCase {
         XCTAssertTrue(urlString.contains(configuration.accessScope))
     }
     
-//    func testCodeFroURL() {
-//        //given
-//        var urlComponents = URLComponents(string: "https://unsplash.com/oauth/authorize/native")
-//        urlComponents?.queryItems = [URLQueryItem(name: "code", value: "test code")]
-//        guard let url = urlComponents?.url else { return }
-//        let authHelper = AuthHelper()
-//        
-//        //when
-//        let code = authHelper.code(from: url)
-//        
-//        //then
-//        XCTAssertEqual(code, "test code")
-//    }
-    
     func testCodeFroURL() {
-        
+        //given
         var urlComponents = URLComponents(string: "https://unsplash.com/oauth/authorize/native")
         urlComponents?.queryItems = [URLQueryItem(name: "code", value: "test code")]
         guard let url = urlComponents?.url else { return }
         let authHelper = AuthHelper()
         
+        //when
         let code = authHelper.code(from: url)
         
+        //then
         XCTAssertEqual(code, "test code")
     }
 }

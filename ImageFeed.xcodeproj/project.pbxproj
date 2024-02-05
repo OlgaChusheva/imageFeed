@@ -33,7 +33,6 @@
 		1F78CC8C2B69A1BC00170810 /* WebViewViewControllerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F78CC8B2B69A1BC00170810 /* WebViewViewControllerSpy.swift */; };
 		1F78CC8E2B69A2CB00170810 /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F78CC8D2B69A2CB00170810 /* ProfilePresenter.swift */; };
 		1F78CCA52B6A77E800170810 /* ImageFeedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F78CCA42B6A77E800170810 /* ImageFeedUITests.swift */; };
-		1F78CCA72B6A77E800170810 /* ImageFeedUITests2LaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F78CCA62B6A77E800170810 /* ImageFeedUITests2LaunchTests.swift */; };
 		1F96DF272A503725007DDD72 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 1F96DF262A503725007DDD72 /* ProgressHUD */; };
 		1F96DF292A51A921007DDD72 /* UIBlokingPrgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F96DF282A51A921007DDD72 /* UIBlokingPrgressHUD.swift */; };
 		1F96DF2B2A51B807007DDD72 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F96DF2A2A51B807007DDD72 /* ProfileService.swift */; };
@@ -110,7 +109,6 @@
 		1F78CC932B6A706F00170810 /* ImageFeedUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageFeedUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F78CCA22B6A77E800170810 /* ImageFeedUITests2.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageFeedUITests2.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F78CCA42B6A77E800170810 /* ImageFeedUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFeedUITests.swift; sourceTree = "<group>"; };
-		1F78CCA62B6A77E800170810 /* ImageFeedUITests2LaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFeedUITests2LaunchTests.swift; sourceTree = "<group>"; };
 		1F96DF282A51A921007DDD72 /* UIBlokingPrgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlokingPrgressHUD.swift; sourceTree = "<group>"; };
 		1F96DF2A2A51B807007DDD72 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		1F96DF2E2A54CA87007DDD72 /* URL Request Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL Request Extension.swift"; sourceTree = "<group>"; };
@@ -298,7 +296,6 @@
 			isa = PBXGroup;
 			children = (
 				1F78CCA42B6A77E800170810 /* ImageFeedUITests.swift */,
-				1F78CCA62B6A77E800170810 /* ImageFeedUITests2LaunchTests.swift */,
 			);
 			path = ImageFeedUITests;
 			sourceTree = "<group>";
@@ -542,7 +539,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F78CCA52B6A77E800170810 /* ImageFeedUITests.swift in Sources */,
-				1F78CCA72B6A77E800170810 /* ImageFeedUITests2LaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

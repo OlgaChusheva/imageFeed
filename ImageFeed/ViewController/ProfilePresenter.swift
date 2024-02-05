@@ -6,8 +6,6 @@
 //
 
 import Foundation
-
-import Foundation
 import WebKit
 
 public protocol ProfilePresenterProtocol {
@@ -43,6 +41,7 @@ final class ProfilePresenter: ProfilePresenterProtocol {
         ProfilePresenter.clean()
         cleanServicesData()
         view?.switchToSplashViewController()
+       
     }
     
     private func cleanServicesData() {

@@ -26,7 +26,7 @@ final class ImagesListUnitTest: XCTestCase {
         let code = presenter.dateString(date)
         
         //then
-        XCTAssertEqual(code, "31 августа 2022 г.")
+        XCTAssertEqual(code, "31 August 2022")
     }
     
     func testInvalidDateToString() {

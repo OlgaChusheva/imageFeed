@@ -35,6 +35,7 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
             self.updateTableViewAnimated()
         }
         imagesListService.fetchPhotosNextPage()
+        tableView.accessibilityIdentifier = "ImageList"
     }
     
     func configure(_ presenter: ImagesListPresenterProtocol) {
@@ -72,7 +73,7 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
             if let date = photos[indexPath.row].createdAt {
                 cell.dataLabel.text = presenter?.dateString(date)
             } else {
-                cell.dataLabel.text = "123123"
+                cell.dataLabel.text = ""
             }
             let isLiked = photos[indexPath.row].isLiked == false
             let likeImage = isLiked ? UIImage(named: "like_button_off") : UIImage(named: "like_button_on")
