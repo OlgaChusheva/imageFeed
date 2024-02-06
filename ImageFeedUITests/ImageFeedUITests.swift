@@ -17,15 +17,16 @@ extension XCUIElement {
 
 final class ImageFeedUITests: XCTestCase {
     let app = XCUIApplication()
-    
+        
     override func setUpWithError() throws {
         continueAfterFailure = false
         
         app.launch()
     }
     
+    
     func testAuth() throws {
-        
+
         app/*@START_MENU_TOKEN@*/.buttons["Authenticate"]/*[[".buttons[\"Войти\"]",".buttons[\"Authenticate\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         
         let webView = app.webViews["UnsplashWebView"]
@@ -51,6 +52,8 @@ final class ImageFeedUITests: XCTestCase {
         passwordTextField.tap()
         passwordTextField.typeText("28NewLife")
         
+        sleep(5)
+        
         webView.buttons["Login"].tap()
         
         let tablesQuery = app.tables
@@ -64,11 +67,13 @@ final class ImageFeedUITests: XCTestCase {
         let tablesQuery = app.tables["ImageList"]
         
         let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
-        cell.swipeUp()
+    //    cell.swipeUp()
         
         sleep(2)
         
         let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
+        
+        
         
         cellToLike.buttons["LikeButton"].tap()
         cellToLike.buttons["LikeButton"].tap()
