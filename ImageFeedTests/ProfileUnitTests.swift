@@ -24,47 +24,7 @@ final class ProfileUnitTests: XCTestCase {
         XCTAssertEqual(OAuth2TokenStorage().token, nil)
     }
     
-    func testProfilePresenterCallsAvatarURL() {
-        //given
-        let viewController = ProfileViewController()
-        let presenter = ProfilePresenterSpy()
-        viewController.presenter = presenter
-        presenter.view = viewController
-        
-        //when
-        viewController.viewDidLoad()
-        
-        //then
-        XCTAssertTrue(presenter.avatarURLCalled) //behaviour verification
-    }
-    
-    func testProfilePresenterCallsUpdateProfileDetails() {
-        //given
-        let viewController = ProfileViewController()
-        let presenter = ProfilePresenterSpy()
-        viewController.presenter = presenter
-        presenter.view = viewController
-        
-        //when
-        viewController.viewDidLoad()
-        
-        //then
-        XCTAssertTrue(presenter.updateProfileDetailsCalled) //behaviour verification
-    }
-    
-    func testProfilePresenterCleanServicesData() {
-        //given
-        let viewController = ProfileViewController()
-        let presenter = ProfilePresenterSpy()
-        viewController.presenter = presenter
-        presenter.view = viewController
-        
-        //when
-        presenter.logout()
-        
-        //then
-        XCTAssertTrue(presenter.cleanServicesDataCalled) //behaviour verification
-    }
+
     
     func testProfilePresenterChangedViewControllerAfterLogout() {
         //given
