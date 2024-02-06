@@ -44,26 +44,49 @@ extension ImagesListService {
         
         //создание URLSessionDataTask на получение картинок
         
+//        let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
+//            DispatchQueue.main.async { [weak self] in
+//                guard let self = self else { return }
+//                self.task = nil
+//                switch result {
+//                case .success(let photoResults):
+//                    for photoResult in photoResults {
+//                        self.photos.append(self.convert(photoResult))
+//                    }
+//                    self.lastLoadedPage = page
+//                    NotificationCenter.default
+//                        .post(
+//                            name: ImagesListService.didChangeNotification,
+//                            object: self,
+//                            userInfo: ["Images" : self.photos])
+//                case .failure(let error):
+//                    assertionFailure("Ошибка получения изображений \(error)")
+//                }
+//            }
+//        }
+        
         let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.task = nil
-                switch result {
-                case .success(let photoResults):
-                    for photoResult in photoResults {
-                        self.photos.append(self.convert(photoResult))
-                    }
-                    self.lastLoadedPage = page
-                    NotificationCenter.default
-                        .post(
-                            name: ImagesListService.didChangeNotification,
-                            object: self,
-                            userInfo: ["Images" : self.photos])
-                case .failure(let error):
-                    assertionFailure("Ошибка получения изображений \(error)")
+            guard let self = self else { return }
+            assert(Thread.isMainThread)
+            
+            switch result {
+            case .success(let photoResults):
+                for photoResult in photoResults {
+                                        self.photos.append(self.convert(photoResult))
+                                    }
+                NotificationCenter.default
+                                       .post(
+                                           name: ImagesListService.didChangeNotification,
+                                           object: self,
+                                           userInfo: ["Images" : self.photos])
+            case .failure(let error):
+                if error.localizedDescription != "cancelled" {
+                    
                 }
             }
+   //         self.photosTask = nil
         }
+                    
         self.task = task
         task?.resume()
     }
